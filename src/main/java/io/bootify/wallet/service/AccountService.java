@@ -113,5 +113,26 @@ public class AccountService {
 
          accountRepository.save(account);
      }
-public void
+      public void withdrawMoney(Long id, double amount){
+
+        Optional<Account> optionalAccount = accountRepository.findById(id);
+        if(optionalAccount.isEmpty()){
+            throw new NotFoundException("Account not found");
+        }
+        Account account = optionalAccount.get();
+
+        double currentBalance = Double.parseDouble(account.getSolde());
+
+        if(amount<=0){
+            throw new IllegalArgumentException("le montant du retrait doit etre positif");
+        }
+        if(currentBalance<amount){
+            throw new IllegalArgumentException("solde insuffisant pour effectuer le retrait");
+        }
+
+        String newBalance = String.valueOf(currentBalance-amount);
+        account.setSolde(newBalance);
+
+        accountRepository.save(account);
+      }
 }

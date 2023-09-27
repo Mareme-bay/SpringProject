@@ -11,11 +11,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
@@ -83,6 +79,12 @@ public class TransactionController {
     public String delete(@PathVariable final Long id, final RedirectAttributes redirectAttributes) {
         transactionService.delete(id);
         redirectAttributes.addFlashAttribute(WebUtils.MSG_INFO, WebUtils.getMessage("transaction.delete.success"));
+        return "redirect:/transactions";
+    }
+    @PostMapping("/transfertMoney/{id}")
+    public String transfertMoney(@PathVariable final Long id1, @PathVariable Long id2, @RequestParam("amount") double amount, final RedirectAttributes redirectAttributes) {
+        transactionService.transferMoney(id1,id2,amount);
+        redirectAttributes.addFlashAttribute(WebUtils.MSG_INFO, WebUtils.getMessage("transaction.transfertMoney.success"));
         return "redirect:/transactions";
     }
 

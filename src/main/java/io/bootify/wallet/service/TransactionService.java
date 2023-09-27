@@ -7,6 +7,8 @@ import io.bootify.wallet.repos.AccountRepository;
 import io.bootify.wallet.repos.TransactionRepository;
 import io.bootify.wallet.util.NotFoundException;
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +20,7 @@ public class TransactionService {
     private final AccountRepository accountRepository;
 
     public TransactionService(final TransactionRepository transactionRepository,
-            final AccountRepository accountRepository) {
+                              final AccountRepository accountRepository) {
         this.transactionRepository = transactionRepository;
         this.accountRepository = accountRepository;
     }
@@ -54,7 +56,7 @@ public class TransactionService {
     }
 
     private TransactionDTO mapToDTO(final Transaction transaction,
-            final TransactionDTO transactionDTO) {
+                                    final TransactionDTO transactionDTO) {
         transactionDTO.setId(transaction.getId());
         transactionDTO.setHeuretrans(transaction.getHeuretrans());
         transactionDTO.setMontant(transaction.getMontant());
@@ -66,7 +68,7 @@ public class TransactionService {
     }
 
     private Transaction mapToEntity(final TransactionDTO transactionDTO,
-            final Transaction transaction) {
+                                    final Transaction transaction) {
         transaction.setHeuretrans(transactionDTO.getHeuretrans());
         transaction.setMontant(transactionDTO.getMontant());
         transaction.setCptSource(transactionDTO.getCptSource());
@@ -78,4 +80,54 @@ public class TransactionService {
         return transaction;
     }
 
+    public void transferMoney(Long sourceAccountId, Long targetAccountId, double amount) {
+        // Vérifiez si les comptes source et cible existent
+        Optional<Account> optionalSourceAccount = accountRepository.findById(sourceAccountId);
+        Optional<Account> optionalTargetAccount = accountRepository.findById(targetAccountId);
+
+        if (optionalSourceAccount.isEmpty() || optionalTargetAccount.isEmpty()) {
+            throw new NotFoundException("Compte source ou cible non trouvé");
+        }
+
+        Account sourceAccount = optionalSourceAccount.get();
+        Account targetAccount = optionalTargetAccount.get();
+
+        // Vérifiez si le montant du transfert est valide
+        if (amount <= 0) {
+            throw new IllegalArgumentException("Le montant du transfert doit être positif");
+        }
+
+        double sourceBalance = Double.parseDouble(sourceAccount.getSolde());
+
+        // Vérifiez si le solde du compte source est suffisant
+        if (sourceBalance < amount) {
+            throw new IllegalArgumentException("Solde insuffisant pour effectuer le transfert");
+        }
+
+        // Effectuez le transfert en mettant à jour les soldes des comptes
+        String newSourceBalance = String.valueOf(sourceBalance - amount);
+        sourceAccount.setSolde(newSourceBalance);
+
+        double targetBalance = Double.parseDouble(targetAccount.getSolde());
+        String newTargetBalance = String.valueOf(targetBalance + amount);
+        targetAccount.setSolde(newTargetBalance);
+
+        // Enregistrez la transaction de transfert dans la base de données
+        Transaction transferTransaction = new Transaction();
+        transferTransaction.setMontant(amount);
+        transferTransaction.setCptSource(sourceAccount.getId());
+        transferTransaction.setCptDest(targetAccount.getId());
+        transferTransaction.setType("Transfert");
+        transactionRepository.save(transferTransaction);
+
+        // Enregistrez les mises à jour des comptes dans la base de données
+        accountRepository.save(sourceAccount);
+        accountRepository.save(targetAccount);
+    }
+
+    // ...
 }
+
+
+
+

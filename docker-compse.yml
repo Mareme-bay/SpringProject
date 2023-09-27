@@ -1,0 +1,23 @@
+version: '3'
+services:
+  spring-app:
+    image: wallet-msir-jour-group3:latest
+    ports:
+      - "8080:8080"  # Port de votre application Spring Boot
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:h2:mem:wallet
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.h2.Driver
+      SPRING_DATASOURCE_USERNAME: sa
+      SPRING_DATASOURCE_PASSWORD:
+    depends_on:
+      - h2-database
+
+  h2-database:
+    image: "o1lab/h2:latest"
+
+    ports:
+      - "9092:9092"  # Port H2 Database (interface web)
+    environment:
+      - H2_TCP_ALLOW_OTHERS=true
+    volumes:
+      - ./data:/data

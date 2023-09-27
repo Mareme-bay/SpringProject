@@ -29,9 +29,9 @@ Feature: Dépôt d'argent sur un compte
     Then une exception IllegalArgumentException est levée
 
 Feature: Retrait d'argent d'un compte
+  Scenario: Tentative de retrait d'argent d'un compte inexistant
+    Given qu'aucun compte avec l'ID 1 n'existe
+    When j'essaie de retirer 50.0 de ce compte
+    Then une exception NotFoundException est levée
+    And aucun enregistrement de compte n'est modifié
 
-  Scénario: Tentative de retrait d'argent d'un compte inexistant
-  Étant donné qu'aucun compte avec l'ID 1 n'existe
-  Quand j'essaie de retirer 50.0 de ce compte
-  Alors une exception NotFoundException est levée
-  Et aucun enregistrement de compte n'est modifié

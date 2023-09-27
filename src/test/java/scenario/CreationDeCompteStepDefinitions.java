@@ -1,2 +1,3 @@
-package scenario;public class CreationDeCompteStepDefinitions {
+package scenario;
+public class CreationDeCompteStepDefinitions {
 }

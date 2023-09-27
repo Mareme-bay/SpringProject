@@ -1,23 +1,19 @@
-version: '3'
+version: '3.1'
 services:
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - mynetwork
+
   spring-app:
-    image: wallet-msir-jour-group3:latest
+    image: wallet-msir-jour-groupe3:latest
     ports:
-      - "8080:8080"  # Port de votre application Spring Boot
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:h2:mem:wallet
-      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.h2.Driver
-      SPRING_DATASOURCE_USERNAME: sa
-      SPRING_DATASOURCE_PASSWORD:
+      - "8080:8080"
     depends_on:
-      - h2-database
+      - redis
 
-  h2-database:
-    image: "o1lab/h2:latest"
 
-    ports:
-      - "9092:9092"  # Port H2 Database (interface web)
-    environment:
-      - H2_TCP_ALLOW_OTHERS=true
-    volumes:
-      - ./data:/data
+networks:
+  mynetwork:

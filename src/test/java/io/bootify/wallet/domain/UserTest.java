@@ -1,4 +1,5 @@
 package io.bootify.wallet.domain;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.OffsetDateTime;
@@ -6,12 +7,19 @@ import java.time.OffsetDateTime;
 import static org.junit.jupiter.api.Assertions.*;
 
 class UserTest {
+    private User user;
+
+
 
     @Test
     void CreateUser() {
         User user = new User();
         assertNotNull(user);
     }
+
+
+
+
 
 
     @Test
@@ -51,4 +59,47 @@ class UserTest {
 
 
     }
-}
+
+
+
+
+
+
+    @Test
+    public void testSetPassword() {
+        User user = new User();
+
+        user.setPassword("password123");
+
+        assertEquals("password123", user.getPassword());
+    }
+
+
+
+    @Test
+    public void testSetNom() {
+        User user = new User();
+
+        user.setNom("John Doe");
+
+        assertEquals("John Doe", user.getNom());
+    }
+
+
+
+    @Test
+    public void testSetPrenom() {
+        User user = new User();
+
+        user.setPrenom("Jane");
+
+        assertEquals("Jane", user.getPrenom());
+    }
+
+
+
+
+
+
+
+        }

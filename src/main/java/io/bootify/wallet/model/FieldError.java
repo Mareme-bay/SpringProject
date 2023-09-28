@@ -6,6 +6,10 @@ public class FieldError {
     private String field;
     private String errorCode;
 
+    public FieldError() {
+
+    }
+
     public String getField() {
         return field;
     }

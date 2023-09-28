@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
+import java.time.OffsetDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -146,4 +147,85 @@ class AccountTest {
         assertEquals(newUser, account.getUser());
     }
 
+    @Test
+    public void testDateCreation() {
+        // Créez un objet Account
+        Account account = new Account();
+
+        // Définissez la date de création
+        OffsetDateTime dateCreation = OffsetDateTime.now();
+        account.setDateCreation(dateCreation);
+
+        // Vérifiez que la méthode getDateCreation() renvoie la valeur définie
+        assertEquals(dateCreation, account.getDateCreation());
+
+        // Définissez une nouvelle date de création
+        OffsetDateTime newDateCreation = dateCreation.plusDays(1);
+        account.setDateCreation(newDateCreation);
+
+        // Vérifiez que la méthode getDateCreation() renvoie la nouvelle valeur définie
+        assertEquals(newDateCreation, account.getDateCreation());
+    }
+    @Test
+    public void testIdAccessors() {
+        // Créez un objet Account
+        Account account = new Account();
+
+        // Définissez l'ID
+        account.setId(1L);
+
+        // Vérifiez que la méthode getId() renvoie la valeur définie
+        assertEquals(1L, account.getId());
+
+        // Définissez un nouvel ID
+        account.setId(2L);
+
+        // Vérifiez que la méthode getId() renvoie la nouvelle valeur définie
+        assertEquals(2L, account.getId());
+    }
+
+    @Test
+    public void testSolde() {
+        // Créez un objet Account
+        Account account = new Account();
+
+        // Définissez le solde
+        account.setSolde("1000.00");
+
+        // Vérifiez que la méthode getSolde() renvoie la valeur définie
+        assertEquals("1000.00", account.getSolde());
+
+        // Définissez un nouveau solde
+        account.setSolde("1500.00");
+
+        // Vérifiez que la méthode getSolde() renvoie la nouvelle valeur définie
+        assertEquals("1500.00", account.getSolde());
+    }
+
+
+@Test
+    public void testUser() {
+        // Créez un objet Account
+        Account account = new Account();
+
+        // Créez un objet User
+        User user = new User();
+        user.setNom("maya");
+        user.setPrenom("sss");
+
+        // Définissez l'utilisateur
+        account.setUser(user);
+
+        // Vérifiez que la méthode getUser() renvoie l'utilisateur défini
+        assertEquals(user, account.getUser());
+
+        // Définissez un nouvel utilisateur
+        User newUser = new User();
+        newUser.setNom("amsa");
+        newUser.setPrenom("ttt");
+        account.setUser(newUser);
+
+        // Vérifiez que la méthode getUser() renvoie le nouvel utilisateur défini
+        assertEquals(newUser, account.getUser());
+    }
 }

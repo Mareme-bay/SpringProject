@@ -13,17 +13,14 @@ public class RetraitArgentDuCompteStepDefinitions {
 
     @Given("qu'aucun compte avec l'ID {int} n'existe")
     public void aucunCompteAvecIDNExiste(Integer id) {
-        // Simule l'absence d'un compte avec l'ID spécifié (vous devrez adapter cette logique à votre application)
         compteExiste = false;
     }
 
     @When("j'essaie de retirer {double} de ce compte")
     public void jEssaieDeRetirerDeCeCompte(Double montant) {
-        // Tente de retirer de l'argent du compte inexistant (vous devrez adapter cette logique à votre application)
         try {
             if (compteExiste) {
-                // Implémentez ici la logique de retrait d'argent
-                // Si le retrait réussit, définissez une variable de contrôle
+
             } else {
                 throw new NotFoundException("Le compte n'existe pas.");
             }

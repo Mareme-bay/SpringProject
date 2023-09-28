@@ -35,3 +35,17 @@ Feature: Retrait d'argent d'un compte
     Then une exception NotFoundException est levée
     And aucun enregistrement de compte n'est modifié
 
+Feature: Transfert d'argent entre comptes :
+  Scenario:Transfert d'argent entre comptes
+  Given le compte avec l'ID 1 existe avec un solde de 200.0
+  And le compte avec l'ID 2 existe avec un solde de 100.0
+  When je transfère 50.0 du compte 1 au compte 2
+  Then la vente du compte 1 est de 150.0
+  And la vente du compte 2 est de 150.0
+
+  Scenario:Tentative de transfert avec un montant supérieur au solde
+  Given le compte avec l'ID 1 existe avec un solde de 100.0
+  And le compte avec l'ID 2 existe avec un solde de 50.0
+  When je tente de transférer 200.0 du compte 1 au compte 2Then une exception SoldeInsuffisantException est levée
+  And la vente du compte 1 est de 100.0
+  And la vente du compte 2 est de 50.0

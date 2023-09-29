@@ -106,20 +106,15 @@ class AccountServiceTest {
         Account account = new Account();
         account.setId(accountId);
         account.setSolde(String.valueOf(initialBalance));
-
         // Configurer le comportement du mock AccountRepository
         when(accountRepository.findById(accountId)).thenReturn(Optional.of(account));
-
         // Appeler la méthode à tester
         double depositAmount = 50.0;
         accountService.depositMoney(accountId, depositAmount);
-
         // Vérifier que la méthode findById a été appelée avec le bon id
         verify(accountRepository).findById(accountId);
-
         // Vérifier que la méthode save a été appelée avec le compte modifié
         verify(accountRepository).save(account);
-
         // Vérifier que le solde du compte a été mis à jour correctement
         double expectedBalance = initialBalance + depositAmount;
         assertEquals(expectedBalance, Double.parseDouble(account.getSolde()), 0.001);
@@ -137,20 +132,15 @@ class AccountServiceTest {
         Account account = new Account();
         account.setId(accountId);
         account.setSolde(String.valueOf(initialBalance));
-
         // Configurer le comportement du mock AccountRepository
         when(accountRepository.findById(accountId)).thenReturn(Optional.of(account));
-
         // Appeler la méthode à tester
         double withdrawAmount = 50.0;
         accountService.withdrawMoney(accountId, withdrawAmount);
-
         // Vérifier que la méthode findById a été appelée avec le bon id
         verify(accountRepository).findById(accountId);
-
         // Vérifier que la méthode save a été appelée avec le compte modifié
         verify(accountRepository).save(account);
-
         // Vérifier que le solde du compte a été mis à jour correctement
         double expectedBalance = initialBalance -withdrawAmount;
         assertEquals(expectedBalance, Double.parseDouble(account.getSolde()),0.05);

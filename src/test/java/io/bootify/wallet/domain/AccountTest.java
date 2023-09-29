@@ -228,4 +228,12 @@ class AccountTest {
         // Vérifiez que la méthode getUser() renvoie le nouvel utilisateur défini
         assertEquals(newUser, account.getUser());
     }
+
+    @Test
+    void testGetTransaction() {
+    }
+
+    @Test
+    void setTransaction() {
+    }
 }

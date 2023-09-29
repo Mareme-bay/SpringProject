@@ -2,6 +2,7 @@ package io.bootify.wallet.rest;
 
 import io.bootify.wallet.model.AccountDTO;
 import io.bootify.wallet.service.AccountService;
+import io.bootify.wallet.util.NotFoundException;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -36,6 +37,8 @@ public class AccountResource {
     @GetMapping("/{id}")
     public ResponseEntity<AccountDTO> getAccount(@PathVariable(name = "id") final Long id) {
         return ResponseEntity.ok(accountService.get(id));
+
+
     }
 
     @PostMapping
